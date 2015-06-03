@@ -23,6 +23,8 @@
 // Store to database?- Relationalship POSTGres?
 // Modal pop-ups?
 // make the DB a text file? for now?
+// Add linked list data structure properties: head, tail, next
+// Faint lines for unhighlighted links, bold for selected nodes?
 /* BioType Event & Duration Class
 
 {
@@ -52,7 +54,9 @@
 // Divide DB into Professional and Personal DB
 // 
 
-var bioData = {
+var bioProfessionalData = {
+	startNode: 1,
+	endNode: 2,
 	"1":{
 		bioType: "duration",
 		eventDate: number,
@@ -69,7 +73,9 @@ var bioData = {
 			},
 		locationCountryorState: "Equitorial Guinea" ,
 		locationCity: "Malabo",
-		jobDescription: "Wireline Field Engineer"
+		jobDescription: "Wireline Field Engineer",
+		next: 2,
+		previous: null
 		}
 	},
 	"2":{
@@ -92,7 +98,7 @@ var bioData = {
 		}
 	},
 };
-/*
+/* Hardcoded into map for now
 	L.marker([3.75, 8.788]).addTo(map)
 			.bindPopup("<b>Malabo, Equitorial Guinea</b><br /> Wireline Field Engineer").openPopup();	
 
@@ -126,4 +132,44 @@ var bioData = {
 		L.marker([37.774, -122.419]).addTo(map)
 			.bindPopup("<b>San Francisco, California</b><br /> Here!").openPopup();
 */
+
+var bioDataList = function(){
+  var list = {};
+  list.head = null;
+  list.tail = null;
+
+  list.addToTail = function(value){
+    var newTail = Node(value);
+
+    if (!list.head) {
+      list.head = newTail;
+    }
+    if (list.tail) {
+      list.tail.next = newTail;
+    }
+    list.tail = newTail;
+  };
+
+   list.contains = function(target){
+    var node = list.head;
+
+    while (node) {
+      if (node.value === target) {
+        return true;
+      }
+      node = node.next;
+    }
+    return false;
+  };
+  return list;
+};
+
+var Node = function(value){
+  var node = {};
+
+  node.value = value;
+  node.next = null;
+
+  return node;
+};
 
